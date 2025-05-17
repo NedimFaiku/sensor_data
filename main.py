@@ -11,9 +11,9 @@ if not os.path.exists(CSV_FILE):
         writer = csv.writer(file)
         writer.writerow(['temperature_F', 'humidity', 'pressure_inHg', 'wind_dir', 'wind_speed_mph', 'solar_radiation', 'uv_index'])
 
-@app.route('/ecowitt', methods=['POST'])
+@app.route('/ecowitt', methods=['GET'])  # Changed POST to GET
 def receive_data():
-    data = request.form.to_dict()
+    data = request.args.to_dict()  # Changed form to args
 
     # Extract relevant fields (adjust as needed)
     row = [
@@ -34,5 +34,5 @@ def receive_data():
     return "OK"
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # 5000 is default if PORT is not set
+    port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
